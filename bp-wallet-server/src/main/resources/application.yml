@@ -44,8 +44,8 @@ spring:
     auto-commit: false
   jpa:
    hibernate.ddl-auto: update
-   generate-ddl: true
-   show-sql: true
+   generate-ddl: false
+   show-sql: false
    properties:
     hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect  
 server:
