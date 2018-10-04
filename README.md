@@ -102,26 +102,24 @@ http://localhost:8080/swagger-ui.html#/
 
 http://<dockermachine -ip>:8080/swagger-ui.html#/
 	
-### Request Input
-`
-{
-  "transactions": {
-    "TRANSACTION_SUCCESS": 1,
-    "TRANSACTION_FAILED": 6
-  },
-  "timeTaken": 0
-}
-`
-### Request Output
-`
-{
-  "transactions": {
-    "TRANSACTION_SUCCESS": 1,
-    "TRANSACTION_FAILED": 600
-  },
-  "timeTaken": 3
-}
-`
+### Request
+
+	{
+	  "numberOfRequests": 1,
+	  "numberOfRounds": 1,
+	  "numberOfUsers": 100
+	}
+
+### Reponse
+
+	{
+	  "transactions": {
+	    "TRANSACTION_SUCCESS": 1,
+	    "TRANSACTION_FAILED": 600
+	  },
+	  "timeTaken": 3
+	}
+
 
 `timeTaken in Seconds.`
 
