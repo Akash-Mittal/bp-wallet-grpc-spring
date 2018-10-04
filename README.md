@@ -18,7 +18,7 @@
     
 ## bp-wallet-server(BPWS)
     
-    Keeps a record of balance in user Wallet.
+    Records balance in user Wallet.
     Expose API for Depositing Money, Withdrawing and Getting Balance in different currencies.
     
 ## bp-wallet-proto(BPWP)
@@ -48,15 +48,15 @@
 	* Springs Transaction.
 	
 * Junits Coverage of > 80% is OOS(Out of Scope).
-* The docker containers should be run via Compose/Kubernetes. OOS.
+* The docker containers should run via Compose/Kubernetes. OOS.
 * The Client/Server Doesn't retry failed transactions. OOS
 * The user ID is Taken from Number of Users param (userID:1 for numberOfuser=1,userID:1,userID:2 for numberOfuser=2).
-* Database schema has been kept Simple with One table only.
+* Database schema has been kept Simple with One table.
 * The actual applicable schema is included in `Future Aspiration Section` with SQL and Schema Diagram.
 * The Service Response/Request has been kept same for `RAPID (Rapid Application Development in Protyping)` Otherwise it should be different for each transaction type example /docs/wallet.proto.
-* There is limited caching implemented `spring-kv-caching` however its performance has not been bench-marked yet.
+* Implements limited caching  `spring-caching` although not bench-marked, it will play a crucial role with expanding user base.
 
-### How to run the client and the server (run `gradlew.bat build` or `gradle build` in root project. first)
+### How to run `BPWS` and `BPWC` (run `gradlew.bat build` or `gradle build` in root project. first)
 
 #### Database
 
@@ -125,7 +125,7 @@ http://<dockermachine -ip>:8080/swagger-ui.html#/
 
 `timeTaken in Seconds.`
 
-Note:For very quick start up please import the project in STS and run `BPWS` and `BPWC` as `spring boot app`.
+Note:For quick start up please import the project in STS and run `BPWS` and `BPWC` as `spring boot app`.
 
 ### Important choices in Solution
 
@@ -133,18 +133,18 @@ Note:For very quick start up please import the project in STS and run `BPWS` and
 * Each Client,Server,DB Instances are developed keeping Scalability,Elasticity and Fault tolerance in mind.
 * Docker Instances make it possible to enable containerization and Helps in Deployments.
 * The Performance Tuning variables are not yet externalized.
-* Server Side - Connection Pooling (That Depends on Given Deployment Platform)
+* Server Side - Connection Pooling Configurations(Depends on Given Deployment Platform).
 * Client Side - Task Executor is Configurable with Concurrent Worker Threads.
 * The `BPWP` is shared with Client and Server.
 * Synchronization or any code level locking on DB has been avoided as there can be multiple instances running.
 * Optimistic Locking is implemented (Which can also be configured for retry mechanism[Disabled for Now])
 * User Registration: N number User are registered with Zero Balance at application startup (This is done to avoid user not found exception and to support Integration tests. This is a bare-bone approach and only adopted due to RAPID).
-* Logging has been minimized via debug for improved performance.
+* For Improved performance `Logging` has been minimized via debug or disabled in `application.yaml` .
 * Some of the Decisions and choices are evident from TPS section.
 
 ### Transactions Per Seconds[TPS].
 
-This is a difficult question as there are various permutation and combination with each variant, and requires performance tuning to reach a common objective or to handle any `future spikes`.
+Its Pandora's Box !! Can have Numerous Permutation & Combination with each variant, and requires performance tuning and monitoring to reach a common objective or to handle any `future spikes`.
 
 #### Per Transaction Variant:
 
@@ -154,7 +154,7 @@ Application Variant : All below are 10 Concurrent Calls but they take different 
 * Single user Making 5 Withdraws 5 Deposit:Same.
 * Single user Making 4 Withdraws 4 Deposit 2 Balance: 18 DB Calls 10 Get and 8 Update.
 
-All of the above transactions have high chances of` OptimisticLockException` due to versioning on stale object.This can overcome by retry mechanism however in this kind of scenario the sequence need to be guaranteed which is achievable by bidirectional streaming.
+All of the above transactions have high chances of` OptimisticLockException` due to versioning on WIP same row stale object.Can be mitigated with retry mechanism however in this kind of scenario the sequence need to be guaranteed possible with `bidirectional streaming`.
 
 Then there are other scenarios with multiple users with multiple transactions - testing is OOS.
 
@@ -174,10 +174,10 @@ Then there are other scenarios with multiple users with multiple transactions - 
 * Wallet Server Deployed Local Machine -(4 GB RAM 4 Cores i5):At large 100+-.
 * Wallet Server Deployed on other Machines:OOS
 
-Having said that, I have been able to achieve about 120(+-) concurrent requests per-second , Although it may very on machines for example i was able to make about 1000+- Transactions in about 1 second for one user deposit only.
+Having said that, About 120(+-) concurrent requests per-second was achieved, Although it may very on machines, For example About 1000+- Transactions happened in about 1 second for one user deposit [On H2 DB !!].
 
 Apart from this - there is another POC written which executes for one second so to better understand the stages of optimization.
-The over all goal was to run it wit time command and check the actual `CPU utilization`.
+The over all goal was to run it wit time command and check the actual `CPU utilization` `Memory Utilization`.
 
 ### Future Aspirations.
 
@@ -186,7 +186,7 @@ The over all goal was to run it wit time command and check the actual `CPU utili
 * Service Discovery.
 * Authentication.
 * UI Client.
-* Docker Images provisioning ans Orchestration via compose.
+* Docker Images provisioning and Orchestration via compose.
 * Caching enabled Entities - with Eviction and Put startegies.
 * DB Schema.
   * Schema File - https://github.com/Akash-Mittal/bp-wallet/blob/master/docs/db-schema.sql
@@ -197,9 +197,9 @@ The over all goal was to run it wit time command and check the actual `CPU utili
 ### Planned Features.[Implemented and Closed]
 
 * The Proto Generation need to be done in a Separate Project.
-* Although Client Should be able to generate its own stub from `.proto ` file, for the sake of DEMO purpose Client and Server Need to add in proto project in theor ` build.gradle`.
+* Although Client Should be able to generate its own stub from `.proto ` file, for the sake of DEMO  `BPWS` and `BPWC` Need to add in `BPWP` in respective `build.gradle`.
 * The Server and Client are both based on Spring boot and uses grpc wrapper of spring boot that supports ` GrpcClient` and ` GrpcServer ` annotations.
-* The Server will not expose Rest API's it will be called via ``` stub ``` 
+* The Server will not expose Rest API's it will be called via `stub `. 
 * Server will be Dockerized.
 
 ### POCs and Related Projects.
