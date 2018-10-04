@@ -1,4 +1,4 @@
-call gradlew.bat build -x test
+gradle build -x test
 
 @rem ********** Starts bp-wallet-client
 call java -jar bp-wallet-client\build\libs\bp-wallet-client-1.0.0.jar
