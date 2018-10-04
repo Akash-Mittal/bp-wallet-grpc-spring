@@ -27,7 +27,7 @@
 
 ### Assumptions and Pointers:
 
-* Server Handles Transaction on FCFS.
+* Server Handles Transaction on FCFS.Ideally in a solution like this the sequence of transactions must be maintained viz OOS.
 * About "Make sure the client exits when all rounds has been executed."
 
   * BPWC exposes SWAGGER API for Testing.
@@ -45,6 +45,7 @@
 	* Hibernate
 	* Spring and Spring Boot.
 	* Swagger
+	* Springs Transaction.
 	
 * Junits Coverage of > 80% is OOS(Out of Scope).
 * The docker containers should be run via Compose/Kubernetes. OOS.
@@ -53,6 +54,7 @@
 * Database schema has been kept Simple with One table only.
 * The actual applicable schema is included in `Future Aspiration Section` with SQL and Schema Diagram.
 * The Service Response/Request has been kept same for `RADIP (Rapid Application Development in Protyping)` Otherwise it should be different for each transaction type example /docs/wallet.proto.
+* There is limited caching implemented `spring-kv-caching` however its performance has not been benchmarked yet.
 
 ### How to run the client and the server (run `gradlew.bat build` or `gradle build` in root project. first)
 
@@ -114,14 +116,16 @@ http://<dockermachine -ip>:8080/swagger-ui.html#/
 
 	{
 	  "transactions": {
-	    "TRANSACTION_SUCCESS": 1,
-	    "TRANSACTION_FAILED": 600
+	    "TRANSACTION_SUCCESS": 700,
+	    "TRANSACTION_FAILED": 0
 	  },
-	  "timeTaken": 3
+	  "timeTaken": 2
 	}
 
 
 `timeTaken in Seconds.`
+
+Note:For very quick start up please import the project in STS and run `BPWS` and `BPWC` as `spring boot app`.
 
 ### Important choices in Solution
 
@@ -136,35 +140,46 @@ http://<dockermachine -ip>:8080/swagger-ui.html#/
 * Optimistic Locking is implemented (Which can also be configured for retry mechanism[Disabled for Now])
 * User Registration: N number User are registered with Zero Balance at application startup (This is done to avoid user not found exception. This is a barebone approach and only adopted due to RAPID).
 * Logging has been minimized via debug for improved performance.
+* Some of the Decisions and choices are evident from TPS section.
 
-### Transactions Per Seconds.
+### Transactions Per Seconds[TPS].
 
-This is a difficult question as there are many scenarios, and requires performance tuning.
+This is a difficult question as there are various permutation and combination with each variant, and requires performance tuning to reach a common objective or to hadnle any `future spikes`.
 
 #### Per Transaction Variant:
 
 Application Variant : All below are 10 Concurrent Calls but they take different execution time because of their nature.
 
-* Single user Making 10 Deposit:
-* Single user Making 5 Withdraws 5 Deposit:
-* Single user Making 4 Withdraws 4 Deposit 2 Balance:
+* Single user Making 10 Deposit: Corresponds to 20 DB Calls 10 for Get and 10 for Update.
+* Single user Making 5 Withdraws 5 Deposit:Same.
+* Single user Making 4 Withdraws 4 Deposit 2 Balance: 18 DB Calls 10 Get and 8 Update.
+
+All of the above transactions have high chances of` OptimisticLockException` due to versioning on stale object.This can overcome by retry mechanism however in this kind of scenario the sequence need to be guranteed which is achievable by bidirectional streaming.
+
+Then there are other scenarios with multiple users with multiple transactions - testing is OOS.
 
 #### Database Variant:
 	
-* Embedded H2 DB:
-* MYSQL DB:
-* Dockerized MYSQL DB:
-* Over the Cloud:
+* Embedded H2 DB:only used for RAPID.
+* MYSQL DB: Although mysql can handle 150+1 Connections , for that the calling system should be of very high configurations, The currenct application configures the Connection Pool Max Size to be 10 based `Number of Cores * 2 + Max(tX Spindle time)`
+* Dockerized MYSQL DB: This makes a delta of 5-10 %.
 	
 #### Database Connection Pooling Variant:
 	
-* HIKARI:
-* Apache:
+* HIKARI:If the number of transaction grows > 400 HCP starts getting `Connection Not Available`, to avoid this the session state was properly synched with DB using flush in finally block.The connection time out was tweaked to 3 Minutes from default.This alone is not suffieient there need to be Data replication in MYSQL with Application Caching for outstanding performance which OOS.
+* Apache:OOS
 	
-#### Platform Variant:
+#### Platform Variant: 
 
-* Wallet Server Deployed Local Machine -(4 GB RAM 4 Cores i5):
-* Wallet Server Deployed on other Machines:
+* Wallet Server Deployed Local Machine -(4 GB RAM 4 Cores i5):At large 100+-.
+* Wallet Server Deployed on other Machines:OOS
+
+
+Having said that, I have been able to achieve about 120(+-) concurrenct reuqests persecond , Alghough it may very on machines for example i was able to make about 1000+- Transactions in about 1 second for one user deposit only.
+
+Apart from this - there is another POC written which executes for one second so to better understand the stages of optimization.
+The over all goal was to run it wit time command and check the actual `CPU utilization`.
+
 
 ### Future Aspirations.
 
