@@ -6,11 +6,24 @@
 ### Sub Projects 
 
 ## bp-wallet-client(BPWC)
-    Client Accessible Make Transaction Request via HTTP2 to server.
+    Spring BOOT based Client Which makes Concurrenct Transaction Request via GRPC Stub over HTTP2 to BPWS.
+
+##### Number of Transactions per Request by BPWC:
+
+* `K Users` Should Run Concurrently.
+* Each Kth User Can make `N Requests`.
+* Each Nth Request can Spawn `M Concurrent Operations(Rounds)`.
+* Each Round will have `DEPOSIT`, `WITHDRAW`,  `BALANCE`.
+* Total Number of threads will K * M * N (* Average 7 Transactions per round).
+    
 ## bp-wallet-server(BPWS)
-    Keeps a record user Wallet and Balance 
+    
+    Keeps a recorduser Wallet.
+    Expose API for Depositing Money, Withdrawing and Getting Balance in different currencies.
+    
 ## bp-wallet-proto(BPWP)
-    Has  proto file and Generated Stubs and Domains shared by BPWC and BPWS.
+    
+    Has proto file and Generated Stubs and Domains shared by BPWC and BPWS.
 
 ### Assumptions and Pointers:
 
@@ -86,9 +99,8 @@ http://localhost:8080/swagger-ui.html#/
 
 ##### Docker
 
-http://<dockermachine-ip>:8080/swagger-ui.html#/
+http://<dockermachine -ip>:8080/swagger-ui.html#/
 	
-
 ### Request Input
 `
 {
@@ -98,7 +110,6 @@ http://<dockermachine-ip>:8080/swagger-ui.html#/
   },
   "timeTaken": 0
 }
-
 `
 ### Request Output
 `
@@ -110,7 +121,8 @@ http://<dockermachine-ip>:8080/swagger-ui.html#/
   "timeTaken": 3
 }
 `
-timeTaken in Seconds.
+
+`timeTaken in Seconds.`
 
 ### Important choices in Solution
 
@@ -154,14 +166,6 @@ Application Variant : All below are 10 Concurrent Calls but they take different 
 
 * Wallet Server Deployed Local Machine -(4 GB RAM 4 Cores i5):
 * Wallet Server Deployed on other Machines:
-
-
-## Deduction on Number of Transactions per Request:
-
-* K Users Should Run Concurrently.
-* Each Kth User Can Spawn N number of New Concurrent Requests.
-* Each Nth Request can Spawn M number of Concurrent Operations(Rounds)
-* Total Number of threads will K x M x N (X Transaction Per Round avg 8)
 
 ### Future Aspirations.
 
