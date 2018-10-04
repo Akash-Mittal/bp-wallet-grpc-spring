@@ -1,5 +1,5 @@
 spring:
-  profiles: 
+  profiles.active: development
 
 ---
 
@@ -13,7 +13,7 @@ spring:
     driverClassName: org.h2.Driver
     hikari:
       idleTimeout: 30000
-      connectionTimeout: 30000
+      connectionTimeout: 180000
       maxLifetime: 1800000
       pool-name: bpServerH2ConnectionPool
       auto-commit: false
@@ -35,15 +35,17 @@ spring:
    driver-class-name: com.mysql.cj.jdbc.Driver
    hikari:
     idle-timeout: 1000
-    connectionTimeout: 10000
     maximum-pool-size: 10
     minimum-idle: 1
+    idleTimeout: 3000
+    connectionTimeout: 30000
+    maxLifetime: 1800000
     pool-name: bpServerMYSQLConnectionPool
     auto-commit: false
   jpa:
    hibernate.ddl-auto: update
-   generate-ddl: false
-   show-sql: false
+   generate-ddl: true
+   show-sql: true
    properties:
     hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect  
 server:
