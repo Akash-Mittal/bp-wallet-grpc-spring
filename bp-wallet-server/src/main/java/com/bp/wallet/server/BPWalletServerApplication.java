@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -20,6 +21,7 @@ import com.bp.wallet.server.repository.WalletRepository;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableRetry
+@EnableCaching
 public class BPWalletServerApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(BPWalletServerApplication.class);
@@ -33,14 +35,15 @@ public class BPWalletServerApplication {
 
 	@Bean
 	public CommandLineRunner buildData() {
+		int numBerOfUsers = 100;
 		return (args) -> {
 			repository.deleteAll();
-			for (long i = 1; i <= 100; i++) {
+			for (long i = 1; i <= numBerOfUsers; i++) {
 				for (int j = 0; j < CURRENCY.values().length - 1; j++) {
 					repository.save(new Wallet(new WalletPK(i, CURRENCY.forNumber(j)), BigDecimal.ZERO));
 				}
 			}
-			log.info("Initialize DB with {} users ", 9999);
+			log.info("Initialize DB with {} users ", numBerOfUsers);
 		};
 	}
 }

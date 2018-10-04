@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bp.wallet.proto.BaseRequest;
 import com.bp.wallet.proto.BaseResponse;
@@ -44,6 +45,7 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 	private BalanceResponseDTO balanceResponseDTO;
 
 	@Override
+	@Transactional
 	public void deposit(final BaseRequest request, final StreamObserver<BaseResponse> responseObserver) {
 		try {
 
@@ -68,6 +70,8 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 	}
 
 	@Override
+	@Transactional
+
 	public void withdraw(final BaseRequest request, final StreamObserver<BaseResponse> responseObserver) {
 
 		logger.info("Request Recieved for UserID:{} For Amount:{}{} ", request.getUserID(), request.getAmount(),
@@ -92,6 +96,8 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 	}
 
 	@Override
+	@Transactional
+
 	public void balance(final BaseRequest request, final StreamObserver<BaseResponse> responseObserver) {
 		logger.info("Request Recieved for UserID:{}", request.getUserID());
 		try {
