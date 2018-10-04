@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.bp.wallet.proto";
+option java_outer_classname = "WalletClass";
+option objc_class_prefix = "WC";
+
+service WalletService {
+  rpc deposit(BaseRequest) returns (BaseResponse) {}
+  rpc withdraw(BaseRequest) returns (BaseResponse) {}
+  rpc balance(BaseRequest) returns (BaseResponse) {}
+}
+
+enum STATUS {
+TRANSACTION_SUCCESS = 0;
+TRANSACTION_FAILED =1;
+}
+ 
+message BaseResponse{
+STATUS status = 1;
+string statusMessage = 2;
+}
+
+message BaseRequest {
+  int64 userID = 1;
+  string amount = 2;
+  CURRENCY currency = 3;	
+}
+
+
+enum CURRENCY {
+USD = 0;
+EUR =1;
+GBP = 2;
+}
+
+enum StatusMessage{
+ USER_DOES_NOT_EXIST = 0;
+ INVALID_ARGUMENTS = 1;
+ INSUFFICIENT_BALANCE = 2;
+ AMOUNT_SHOULD_BE_GREATER_THAN_ZERO = 3;
+ INVALID_CURRENCY = 4;
+ }

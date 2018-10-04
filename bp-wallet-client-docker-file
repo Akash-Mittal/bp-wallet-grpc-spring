@@ -1,0 +1,11 @@
+FROM openjdk:8
+
+MAINTAINER Akash Mittal "mail.akash.on@gmail.com"
+ 
+COPY /bp-wallet-client/build/libs/bp-wallet-client-1.0.0.jar /app/bp-wallet-client-1.0.0.jar
+
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["java -jar", "/app/bp-wallet-client-1.0.0.jar]
+
+EXPOSE 9090
+

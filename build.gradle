@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url 'http://repo.spring.io/plugins-release' }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    ext {
+        projectVersion = '2.0.1.RELEASE'
+
+        grpcVersion = '1.15.0'
+        protobufVersion = '3.5.1'
+        protobufGradlePluginVersion = '0.8.4'
+
+        springBootVersion = '2.0.4.RELEASE'
+        springSleuthVersion = '2.0.1.RELEASE'
+        springCloudVersion = 'Finchley.SR1'
+        springCloudConsulVersion = '2.0.1.RELEASE'
+        springCloudEurekaVersion = '2.0.1.RELEASE'
+        braveInstrumentationGrpc='5.1.2'
+        springBootGrpcVersion='2.0.1.RELEASE'
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.7'
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: "io.spring.dependency-management"
+
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url 'http://repo.spring.io/plugins-release' }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+ 
+    buildscript {
+        repositories {
+            mavenLocal()
+            mavenCentral()
+            jcenter()
+            maven { url 'http://repo.spring.io/plugins-release' }
+            maven { url "https://plugins.gradle.org/m2/" }
+        }
+    }
+}
