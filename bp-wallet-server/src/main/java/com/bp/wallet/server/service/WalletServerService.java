@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bp.wallet.proto.BaseRequest;
 import com.bp.wallet.proto.BaseResponse;
@@ -27,7 +26,6 @@ import io.grpc.stub.StreamObserver;
 import net.devh.springboot.autoconfigure.grpc.server.GrpcService;
 
 @GrpcService(WalletServiceGrpc.class)
-
 public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(WalletServerService.class);
@@ -48,6 +46,7 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 	@Override
 	public void deposit(final BaseRequest request, final StreamObserver<BaseResponse> responseObserver) {
 		try {
+
 			validateRequest(request);
 			final BigDecimal balanceToADD = get(request.getAmount());
 			logger.info("Request Recieved for UserID:{} For Amount:{}{} ", request.getUserID(), request.getAmount(),
@@ -63,6 +62,8 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 		} catch (Exception e) {
 			logger.error("------------>", e);
 			responseObserver.onError(new StatusRuntimeException(Status.UNKNOWN.withDescription(e.getMessage())));
+		} finally {
+			walletRepository.flush();
 		}
 	}
 
@@ -85,11 +86,12 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 		} catch (Exception e) {
 			logger.error("------------>", e);
 			responseObserver.onError(new StatusRuntimeException(Status.UNKNOWN.withDescription(e.getMessage())));
+		} finally {
+			walletRepository.flush();
 		}
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public void balance(final BaseRequest request, final StreamObserver<BaseResponse> responseObserver) {
 		logger.info("Request Recieved for UserID:{}", request.getUserID());
 		try {
@@ -107,6 +109,8 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 		} catch (Exception e) {
 			logger.error("------------>", e);
 			responseObserver.onError(new StatusRuntimeException(Status.UNKNOWN.withDescription(e.getMessage())));
+		} finally {
+
 		}
 
 	}
@@ -126,14 +130,12 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 
 	}
 
-	@Transactional(readOnly = true)
 	private Optional<Wallet> getUserWallet(final BaseRequest request) {
 		Optional<Wallet> wallet = walletRepository.getUserWalletsByCurrencyAndUserID(request.getUserID(),
 				request.getCurrency());
 		return wallet;
 	}
 
-	@Transactional(readOnly = false)
 	private void updateWallet(final BaseRequest request, final BigDecimal balanceToADD, final Optional<Wallet> wallet) {
 		if (wallet.isPresent()) {
 			walletRepository.updateBalance(wallet.get().getBalance().add(balanceToADD), request.getUserID(),
