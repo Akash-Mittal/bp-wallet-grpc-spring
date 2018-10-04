@@ -43,7 +43,7 @@ public class BPWalletServerApplication {
 					repository.save(new Wallet(new WalletPK(i, CURRENCY.forNumber(j)), BigDecimal.ZERO));
 				}
 			}
-			log.info("Initialize DB with {} users ", numBerOfUsers);
+			log.info("Initialized with {} users ", numBerOfUsers);
 		};
 	}
 }
