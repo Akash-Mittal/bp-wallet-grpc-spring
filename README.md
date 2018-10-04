@@ -18,20 +18,21 @@
     
 ## bp-wallet-server(BPWS)
     
-    Keeps a recorduser Wallet.
+    Keeps a record of balance in user Wallet.
     Expose API for Depositing Money, Withdrawing and Getting Balance in different currencies.
     
 ## bp-wallet-proto(BPWP)
     
-    Has proto file and Generated Stubs and Domains shared by BPWC and BPWS.
+    Has proto file(.proto), Generated Stubs and Domains shared by BPWC and BPWS.
 
 ### Assumptions and Pointers:
 
-* Server Handles Transaction on First Come First Serve.
+* Server Handles Transaction on FCFS.
 * About "Make sure the client exits when all rounds has been executed."
-	Client Runs on Spring Boot Application and has also exposed SWAGGER API for Testing.
-	Client Will process the Request and Wait for next.
-  *	CLI Command: Not Implemented
+
+  * BPWC exposes SWAGGER API for Testing.
+  * CLI Command: Not Implemented
+  
 * Technologies
 
 	* Java 8.
