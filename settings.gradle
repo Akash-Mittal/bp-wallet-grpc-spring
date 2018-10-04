@@ -1,0 +1,5 @@
+rootProject.name = 'bp-wallet-grpc-spring'
+include "bp-wallet-proto"
+include "bp-wallet-client"
+include "bp-wallet-server"
+
