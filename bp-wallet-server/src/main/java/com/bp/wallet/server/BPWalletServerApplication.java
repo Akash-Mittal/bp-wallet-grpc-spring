@@ -35,7 +35,7 @@ public class BPWalletServerApplication {
 	public CommandLineRunner buildData() {
 		return (args) -> {
 			repository.deleteAll();
-			for (long i = 1; i <= 9999; i++) {
+			for (long i = 1; i <= 100; i++) {
 				for (int j = 0; j < CURRENCY.values().length - 1; j++) {
 					repository.save(new Wallet(new WalletPK(i, CURRENCY.forNumber(j)), BigDecimal.ZERO));
 				}
