@@ -6,19 +6,33 @@
 ### Sub Projects 
 
 ## bp-wallet-client(BPWC)
-    Client Accessible Make Transaction Request via HTTP2 to server.
+    Spring BOOT based Client Which makes Concurrenct Transaction Request via GRPC Stub over HTTP2 to BPWS.
+
+##### Number of Transactions per Request by BPWC:
+
+* `K Users` Should Run Concurrently.
+* Each Kth User Can make `N Requests`.
+* Each Nth Request can Spawn `M Concurrent Operations(Rounds)`.
+* Each Round will have `DEPOSIT`, `WITHDRAW`,  `BALANCE`.
+* Total Number of threads will K * M * N (* Average 7 Transactions per round).
+    
 ## bp-wallet-server(BPWS)
-    Keeps a record user Wallet and Balance 
+    
+    Keeps a record of balance in user Wallet.
+    Expose API for Depositing Money, Withdrawing and Getting Balance in different currencies.
+    
 ## bp-wallet-proto(BPWP)
-    Has  proto file and Generated Stubs and Domains shared by BPWC and BPWS.
+    
+    Has proto file(.proto), Generated Stubs and Domains shared by BPWC and BPWS.
 
 ### Assumptions and Pointers:
 
-* Server Handles Transaction on First Come First Serve.
+* Server Handles Transaction on FCFS.
 * About "Make sure the client exits when all rounds has been executed."
-	Client Runs on Spring Boot Application and has also exposed SWAGGER API for Testing.
-	Client Will process the Request and Wait for next.
-  *	CLI Command: Not Implemented
+
+  * BPWC exposes SWAGGER API for Testing.
+  * CLI Command: Not Implemented
+  
 * Technologies
 
 	* Java 8.
@@ -86,31 +100,28 @@ http://localhost:8080/swagger-ui.html#/
 
 ##### Docker
 
-http://<dockermachine-ip>:8080/swagger-ui.html#/
+http://<dockermachine -ip>:8080/swagger-ui.html#/
 	
+### Request
 
-### Request Input
-`
-{
-  "transactions": {
-    "TRANSACTION_SUCCESS": 1,
-    "TRANSACTION_FAILED": 6
-  },
-  "timeTaken": 0
-}
+	{
+	  "numberOfRequests": 1,
+	  "numberOfRounds": 1,
+	  "numberOfUsers": 100
+	}
 
-`
-### Request Output
-`
-{
-  "transactions": {
-    "TRANSACTION_SUCCESS": 1,
-    "TRANSACTION_FAILED": 600
-  },
-  "timeTaken": 3
-}
-`
-timeTaken in Seconds.
+### Reponse
+
+	{
+	  "transactions": {
+	    "TRANSACTION_SUCCESS": 1,
+	    "TRANSACTION_FAILED": 600
+	  },
+	  "timeTaken": 3
+	}
+
+
+`timeTaken in Seconds.`
 
 ### Important choices in Solution
 
@@ -154,14 +165,6 @@ Application Variant : All below are 10 Concurrent Calls but they take different 
 
 * Wallet Server Deployed Local Machine -(4 GB RAM 4 Cores i5):
 * Wallet Server Deployed on other Machines:
-
-
-## Deduction on Number of Transactions per Request:
-
-* K Users Should Run Concurrently.
-* Each Kth User Can Spawn N number of New Concurrent Requests.
-* Each Nth Request can Spawn M number of Concurrent Operations(Rounds)
-* Total Number of threads will K x M x N (X Transaction Per Round avg 8)
 
 ### Future Aspirations.
 
