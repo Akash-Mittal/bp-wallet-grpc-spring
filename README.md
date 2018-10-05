@@ -1,12 +1,66 @@
 # bp-wallet-grpc-spring
 
+Based on Google RPC and Protocol Buffer - a multi threaded Asynchronous Application that Allows Deposit, Withdrawal and Get Balance for the users.Project consists of a Wallet server and Wallet client.The wallet server will keep track of a users monetary balance in the system. The client will emulate users depositing and withdrawing funds.
+
+Function        | Input           | Output  | Error |
+| :------------- |:-------------:| :-----:| :-----:|
+| Deposit      | UserID,Amount,Currency | Success/Failure | Unknown Currency , User Unknown|
+| Withdraw      | UserID,Amount,Currency | Success/Failure | Unknown Currency , User Unknown|
+| Get Balance |  User id   |The balance of the users account for each currency | User Unknown |
+
+`Currency (allowed values are EUR, USD, GBP)`
+
 
  ![bp-wallet-hld](https://user-images.githubusercontent.com/2044872/46343424-46fb5480-c65b-11e8-89e2-84bcb08c44ca.png)
+
+
 
 ### Sub Projects 
 
 ## bp-wallet-client(BPWC)
-    Spring BOOT based Client Which makes Concurrent Transaction Request via GRPC Stub over HTTP2 to BPWS.
+
+* Spring BOOT based Client Which makes Concurrent Transaction Request via GRPC Stub over HTTP2 to BPWS.
+* The wallet client will emulate a number of users concurrently using the wallet. 
+* The wallet client must connect to the wallet server over gRPC. 
+* The client eliminating users doing rounds (a sequence of events). 
+* Whenever a round is needed it is picked at random from the following list of available rounds
+
+#### Round A
+
+* Deposit 100 USD
+* Withdraw 200 USD
+* Deposit 100 EUR
+* Get Balance
+* Withdraw 100 USD
+* Get Balance
+* Withdraw 100 USD
+
+#### Round B
+
+* Withdraw 100 GBP
+* Deposit 300 GPB
+* Withdraw 100 GBP
+* Withdraw 100 GBP
+* Withdraw 100 GBP
+* Withdraw 100 GBP
+* Withdraw 100 GBP
+
+#### Round C
+
+* Get Balance
+* Deposit 100 USD
+* Deposit 100 USD
+* Withdraw 100 USD
+* Deposit 100 USD
+* Get Balance
+* Withdraw 200 USD
+* Get Balance
+
+#### The wallet client should have the following parameters:
+
+* users (number of concurrent users emulated)
+* concurrent_threads_per_user (number of concurrent requests a user will make)
+* rounds_per_thread (number of rounds each thread is executing)
 
 ##### Number of Transactions per Request by BPWC:
 
@@ -53,7 +107,7 @@
 * The user ID is Taken from Number of Users param (userID:1 for numberOfuser=1,userID:1,userID:2 for numberOfuser=2).
 * Database schema has been kept Simple with One table.
 * The actual applicable schema is included in `Future Aspiration Section` with SQL and Schema Diagram.
-* The Service Response/Request has been kept same for `RAPID (Rapid Application Development in Protyping)` Otherwise it should be different for each transaction type example /docs/wallet.proto.
+* The Service Response/Request has been kept same for `RAPID (Rapid Application Development in Pro-typing)` Otherwise it should be different for each transaction type example /docs/wallet.proto.
 * Implements limited caching  `spring-caching` although not bench-marked, it will play a crucial role with expanding user base.
 
 ### How to run `BPWS` and `BPWC` (run `gradlew.bat build` or `gradle build` in root project. first)
@@ -179,6 +233,23 @@ Having said that, About 120(+-) concurrent requests per-second was achieved, Alt
 Apart from this - there is another POC written which executes for one second so to better understand the stages of optimization.
 The over all goal was to run it wit time command and check the actual `CPU utilization` `Memory Utilization`.
 
+
+### Integration Test
+
+    1.  Make a withdrawal of USD 200 for user with id 1. Must return "insufficient_funds".
+    2.  Make a deposit of USD 100 to user with id 1.
+    3.  Check that all balances are correct
+    4.  Make a withdrawal of USD 200 for user with id 1. Must return "insufficient_funds".
+    5.  Make a deposit of EUR 100 to user with id 1.
+    6.  Check that all balances are correct
+    7.  Make a withdrawal of USD 200 for user with id 1. Must return "insufficient_funds".
+    8.  Make a deposit of USD 100 to user with id 1.
+    9.  Check that all balances are correct
+    10. Make a withdrawal of USD 200 for user with id 1. Must return "ok".
+    11. Check that all balances are correct
+    12. Make a withdrawal of USD 200 for user with id 1. Must return "insufficient_funds".
+
+
 ### Future Aspirations.
 
 * Cloud Ready.
@@ -187,7 +258,7 @@ The over all goal was to run it wit time command and check the actual `CPU utili
 * Authentication.
 * UI Client.
 * Docker Images provisioning and Orchestration via compose.
-* Caching enabled Entities - with Eviction and Put startegies.
+* Caching enabled Entities - with Eviction and Put strategies.
 * DB Schema.
   * Schema File - https://github.com/Akash-Mittal/bp-wallet/blob/master/docs/db-schema.sql
 
