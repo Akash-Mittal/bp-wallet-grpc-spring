@@ -8,8 +8,9 @@ Function        | Input           | Output  | Error |
 | Withdraw      | UserID,Amount,Currency | Success/Failure | Unknown Currency , User Unknown|
 | Get Balance |  User id   |The balance of the users account for each currency | User Unknown |
 
-`Currency (allowed values are EUR, USD, GBP)`
+`Currency (Values are EUR, USD, GBP)`
 
+---
 
  ![bp-wallet-hld](https://user-images.githubusercontent.com/2044872/46343424-46fb5480-c65b-11e8-89e2-84bcb08c44ca.png)
 
@@ -56,7 +57,7 @@ Function        | Input           | Output  | Error |
 * Withdraw 200 USD
 * Get Balance
 
-#### The wallet client should have the following parameters:
+#### The wallet client will have the following parameters:
 
 * users (number of concurrent users emulated)
 * concurrent_threads_per_user (number of concurrent requests a user will make)
@@ -78,6 +79,8 @@ Function        | Input           | Output  | Error |
 ## bp-wallet-proto(BPWP)
     
     Has proto file(.proto), Generated Stubs and Domains shared by BPWC and BPWS.
+
+---
 
 ### Assumptions and Pointers:
 
@@ -109,6 +112,8 @@ Function        | Input           | Output  | Error |
 * The actual applicable schema is included in `Future Aspiration Section` with SQL and Schema Diagram.
 * The Service Response/Request has been kept same for `RAPID (Rapid Application Development in Pro-typing)` Otherwise it should be different for each transaction type example /docs/wallet.proto.
 * Implements limited caching  `spring-caching` although not bench-marked, it will play a crucial role with expanding user base.
+
+---
 
 ### How to run `BPWS` and `BPWC` (run `gradlew.bat build` or `gradle build` in root project. first)
 
@@ -181,6 +186,8 @@ http://<dockermachine -ip>:8080/swagger-ui.html#/
 
 Note:For quick start up please import the project in STS and run `BPWS` and `BPWC` as `spring boot app`.
 
+---
+
 ### Important choices in Solution
 
 * The Whole Structure of the BP-wallet application is loosely coupled SOA.
@@ -233,6 +240,7 @@ Having said that, About 120(+-) concurrent requests per-second was achieved, Alt
 Apart from this - there is another POC written which executes for one second so to better understand the stages of optimization.
 The over all goal was to run it wit time command and check the actual `CPU utilization` `Memory Utilization`.
 
+---
 
 ### Integration Test
 
@@ -249,6 +257,7 @@ The over all goal was to run it wit time command and check the actual `CPU utili
     11. Check that all balances are correct
     12. Make a withdrawal of USD 200 for user with id 1. Must return "insufficient_funds".
 
+---
 
 ### Future Aspirations.
 
