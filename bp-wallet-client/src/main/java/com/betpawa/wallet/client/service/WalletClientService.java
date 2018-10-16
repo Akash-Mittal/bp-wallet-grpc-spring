@@ -1,6 +1,7 @@
 package com.betpawa.wallet.client.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,9 @@ import org.springframework.stereotype.Service;
 import com.betpawa.wallet.client.dto.WalletClientRequest;
 import com.betpawa.wallet.client.runner.UserSupplier;
 import com.bp.wallet.proto.BaseResponse;
+import com.bp.wallet.proto.OPERATION;
 import com.bp.wallet.proto.STATUS;
 import com.google.common.util.concurrent.ListenableFuture;
-
-import io.grpc.Status;
 
 @Service
 public class WalletClientService {
@@ -26,11 +26,16 @@ public class WalletClientService {
 	@Autowired
 	private UserSupplier userSupplier;
 
-	public Map<STATUS, AtomicLong> run(final WalletClientRequest walletClientRequest) {
+	@SuppressWarnings("unused")
+	public Map<OPERATION, Map<STATUS, AtomicLong>> run(final WalletClientRequest walletClientRequest) {
 
-		final Map<STATUS, AtomicLong> statusMap = new EnumMap<STATUS, AtomicLong>(STATUS.class);
-		statusMap.put(STATUS.TRANSACTION_SUCCESS, new AtomicLong(0));
-		statusMap.put(STATUS.TRANSACTION_FAILED, new AtomicLong(0));
+		final Map<OPERATION, Map<STATUS, AtomicLong>> operationStatusMap = new EnumMap<>(OPERATION.class);
+
+		Arrays.stream(OPERATION.values()).forEach(op -> {
+			Map<STATUS, AtomicLong> statusMap = new EnumMap<STATUS, AtomicLong>(STATUS.class);
+			Arrays.stream(STATUS.values()).forEach(val -> statusMap.put(val, new AtomicLong(0)));
+			operationStatusMap.put(op, statusMap);
+		});
 
 		final List<ListenableFuture<BaseResponse>> roundsLFResponse = new ArrayList<>();
 		userSupplier.setWalletClientRequest(walletClientRequest);
@@ -40,17 +45,16 @@ public class WalletClientService {
 				BaseResponse response = listenableFuture.get();
 				logger.info(roundsLFResponse.size() + ":  " + listenableFuture.get().getStatus().name(),
 						listenableFuture.get().getStatusMessage());
-				statusMap.get(STATUS.TRANSACTION_SUCCESS).incrementAndGet();
+				operationStatusMap.get(response.getOperation()).get(STATUS.TRANSACTION_SUCCESS).incrementAndGet();
 			} catch (Exception e) {
 				logger.error(e.getMessage());
-				if (e.getMessage().contains((Status.FAILED_PRECONDITION.getCode().name().toString()))) {
-					statusMap.get(STATUS.TRANSACTION_SUCCESS).incrementAndGet();
-				} else {
-					statusMap.get(STATUS.TRANSACTION_FAILED).incrementAndGet();
-				}
+				// This is because In Error Case the operation is not known.
+				Map<STATUS, AtomicLong> aa = operationStatusMap.get(OPERATION.UNRECOGNIZED);
+				AtomicLong aaa = operationStatusMap.get(OPERATION.UNRECOGNIZED).get(STATUS.TRANSACTION_FAILED);
+				operationStatusMap.get(OPERATION.UNRECOGNIZED).get(STATUS.TRANSACTION_FAILED).incrementAndGet();
 			}
 		});
-		return statusMap;
+		return operationStatusMap;
 	}
 
 }
