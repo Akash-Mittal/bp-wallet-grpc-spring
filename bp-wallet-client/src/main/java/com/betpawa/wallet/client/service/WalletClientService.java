@@ -49,8 +49,6 @@ public class WalletClientService {
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 				// This is because In Error Case the operation is not known.
-				Map<STATUS, AtomicLong> aa = operationStatusMap.get(OPERATION.UNRECOGNIZED);
-				AtomicLong aaa = operationStatusMap.get(OPERATION.UNRECOGNIZED).get(STATUS.TRANSACTION_FAILED);
 				operationStatusMap.get(OPERATION.UNRECOGNIZED).get(STATUS.TRANSACTION_FAILED).incrementAndGet();
 			}
 		});
