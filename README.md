@@ -198,7 +198,8 @@ Note:For quick start up please import the project in STS and run `BPWS` and `BPW
 * Client Side - Task Executor is Configurable with Concurrent Worker Threads.
 * The `BPWP` is shared with Client and Server.
 * Synchronization or any code level locking on DB has been avoided as there can be multiple instances running.
-* Optimistic Locking is implemented (Which can also be configured for retry mechanism[Disabled for Now])
+* `Optimistic Locking` via `@Version` annotation is implemented for `Concurrency` (Which can also be configured for retry mechanism[Disabled for Now])
+* There are Still Some `Race Conditions` in `BPWS`.
 * User Registration: N number User are registered with Zero Balance at application startup (This is done to avoid user not found exception and to support Integration tests. This is a bare-bone approach and only adopted due to RAPID).
 * For Improved performance `Logging` has been minimized via debug or disabled in `application.yaml` .
 * Some of the Decisions and choices are evident from TPS section.
