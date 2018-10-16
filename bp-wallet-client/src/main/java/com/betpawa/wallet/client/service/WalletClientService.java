@@ -26,7 +26,6 @@ public class WalletClientService {
 	@Autowired
 	private UserSupplier userSupplier;
 
-	@SuppressWarnings("unused")
 	public Map<OPERATION, Map<STATUS, AtomicLong>> run(final WalletClientRequest walletClientRequest) {
 
 		final Map<OPERATION, Map<STATUS, AtomicLong>> operationStatusMap = new EnumMap<>(OPERATION.class);
