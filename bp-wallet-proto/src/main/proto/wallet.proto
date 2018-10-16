@@ -16,9 +16,15 @@ TRANSACTION_SUCCESS = 0;
 TRANSACTION_FAILED =1;
 }
  
+enum OPERATION{
+ DEPOSIT = 0;
+ WITHDRAW = 1;
+ BALANCE = 2;
+} 
 message BaseResponse{
 STATUS status = 1;
 string statusMessage = 2;
+OPERATION operation = 3;
 }
 
 message BaseRequest {
