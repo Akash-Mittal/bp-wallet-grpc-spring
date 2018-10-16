@@ -143,10 +143,9 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 	}
 
 	private void updateWallet(final BaseRequest request, final BigDecimal balanceToADD, final Optional<Wallet> wallet) {
-		if (wallet.isPresent()) {
-			walletRepository.updateBalance(wallet.get().getBalance().add(balanceToADD), request.getUserID(),
-					request.getCurrency());
-		}
+		bpWalletValidator.validateWallet(wallet);
+		walletRepository.updateBalance(wallet.get().getBalance().add(balanceToADD), request.getUserID(),
+				request.getCurrency());
 	}
 
 	private void validateWithDrawRequest(final BigDecimal balanceToWithdraw, Optional<Wallet> wallet) {
