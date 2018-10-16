@@ -274,22 +274,14 @@ The over all goal was to run it wit time command and check the actual `CPU utili
 ![bp-wallet-schema](https://user-images.githubusercontent.com/2044872/46343515-9fcaed00-c65b-11e8-88d1-a9ef37b8c6a3.png)
 
 
-### Planned Features.[Implemented and Closed]
-
-* The Proto Generation need to be done in a Separate Project.
-* Although Client Should be able to generate its own stub from `.proto ` file, for the sake of DEMO  `BPWS` and `BPWC` Need to add in `BPWP` in respective `build.gradle`.
-* The Server and Client are both based on Spring boot and uses grpc wrapper of spring boot that supports ` GrpcClient` and ` GrpcServer ` annotations.
-* The Server will not expose Rest API's it will be called via `stub `. 
-* Server will be Dockerized.
-
 ### POCs and Related Projects.
 
 * https://github.com/Akash-Mittal/jmeter-multithreaded-application
 
 * https://github.com/Akash-Mittal/enities-maker
 
-* https://github.com/Akash-Mittal/hibernate-composite-key-demo/blob/master/Readme.md
-
 * https://github.com/Akash-Mittal/grpc-wallet
 
 * https://github.com/Akash-Mittal/bp-wallet
+
+* https://github.com/Akash-Mittal/hibernate-samples
