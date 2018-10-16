@@ -49,7 +49,6 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 	@Transactional
 	public void deposit(final BaseRequest request, final StreamObserver<BaseResponse> responseObserver) {
 		try {
-
 			validateRequest(request);
 			final BigDecimal balanceToADD = get(request.getAmount());
 			logger.info("Request Recieved for UserID:{} For Amount:{}{} ", request.getUserID(), request.getAmount(),
@@ -68,6 +67,7 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 			responseObserver.onError(new StatusRuntimeException(Status.UNKNOWN.withDescription(e.getMessage())));
 		} finally {
 			walletRepository.flush();
+
 		}
 	}
 

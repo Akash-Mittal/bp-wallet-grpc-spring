@@ -101,4 +101,10 @@ public class WalletPK implements Serializable {
 		this.userID = builder.userID;
 		this.currency = builder.currency;
 	}
+
+	@Override
+	public String toString() {
+		return "WalletPK [userID=" + userID + ", currency=" + currency + "]";
+	}
+
 }
