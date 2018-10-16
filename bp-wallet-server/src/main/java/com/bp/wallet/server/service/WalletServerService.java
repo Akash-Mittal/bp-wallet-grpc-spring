@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bp.wallet.proto.BaseRequest;
 import com.bp.wallet.proto.BaseResponse;
+import com.bp.wallet.proto.OPERATION;
 import com.bp.wallet.proto.STATUS;
 import com.bp.wallet.proto.WalletServiceGrpc;
 import com.bp.wallet.server.dto.BalanceResponseDTO;
@@ -54,8 +55,9 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 			logger.info("Request Recieved for UserID:{} For Amount:{}{} ", request.getUserID(), request.getAmount(),
 					request.getCurrency());
 			Optional<Wallet> wallet = getUserWallet(request);
-			updateWallet(request, balanceToADD, wallet);
-			successResponse(responseObserver);
+			bpWalletValidator.validateWallet(wallet);
+			updateWallet(wallet.get().getBalance().add(balanceToADD), wallet);
+			successResponse(responseObserver, OPERATION.DEPOSIT);
 			logger.info("Wallet Updated SuccessFully");
 		} catch (BPValidationException e) {
 			logger.error(e.getErrorStatus().name());
@@ -81,8 +83,8 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 			validateRequest(request);
 			Optional<Wallet> wallet = getUserWallet(request);
 			validateWithDrawRequest(balanceToWithdraw, wallet);
-			updateWallet(request, wallet.get().getBalance().subtract(balanceToWithdraw), wallet);
-			successResponse(responseObserver);
+			updateWallet(wallet.get().getBalance().subtract(balanceToWithdraw), wallet);
+			successResponse(responseObserver, OPERATION.WITHDRAW);
 		} catch (BPValidationException e) {
 			logger.error(e.getErrorStatus().name());
 			responseObserver
@@ -106,7 +108,7 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 			String balance = balanceResponseDTO.getBalanceAsString(userWallets);
 			logger.info(balance);
 			responseObserver.onNext(BaseResponse.newBuilder().setStatusMessage(balance)
-					.setStatus((STATUS.TRANSACTION_SUCCESS)).build());
+					.setStatus((STATUS.TRANSACTION_SUCCESS)).setOperation(OPERATION.BALANCE).build());
 			responseObserver.onCompleted();
 		} catch (BPValidationException e) {
 			logger.error(e.getErrorStatus().name());
@@ -130,8 +132,9 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 		bpCurrencyValidator.checkCurrency(request.getCurrency());
 	}
 
-	private void successResponse(final StreamObserver<BaseResponse> responseObserver) {
-		responseObserver.onNext(BaseResponse.newBuilder().setStatus(STATUS.TRANSACTION_SUCCESS).build());
+	private void successResponse(final StreamObserver<BaseResponse> responseObserver, OPERATION operation) {
+		responseObserver.onNext(
+				BaseResponse.newBuilder().setStatus(STATUS.TRANSACTION_SUCCESS).setOperation(operation).build());
 		responseObserver.onCompleted();
 
 	}
@@ -142,10 +145,9 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 		return wallet;
 	}
 
-	private void updateWallet(final BaseRequest request, final BigDecimal balanceToADD, final Optional<Wallet> wallet) {
-		bpWalletValidator.validateWallet(wallet);
-		walletRepository.updateBalance(wallet.get().getBalance().add(balanceToADD), request.getUserID(),
-				request.getCurrency());
+	private void updateWallet(final BigDecimal newBalance, final Optional<Wallet> wallet) {
+		wallet.get().setBalance(newBalance);
+		walletRepository.save(wallet.get());
 	}
 
 	private void validateWithDrawRequest(final BigDecimal balanceToWithdraw, Optional<Wallet> wallet) {
