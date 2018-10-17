@@ -1,78 +1,36 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "com.betpawa.wallet";
+option java_package = "com.bp.wallet.proto";
 option java_outer_classname = "WalletClass";
 option objc_class_prefix = "WC";
 
-package wallet;
-
- enum StatusCode{
- BP_WALLET_000 = 0;
- BP_WALLET_001 = 1;
- BP_WALLET_002 = 2;
- BP_WALLET_003 =3;
- }
-
- enum StatusMessage{
- USER_DOES_NOT_EXIST = 0;
- INVALID_ARGUMENTS = 1;
- INSUFFICIENT_BALANCE = 2;
- AMOUNT_SHOULD_BE_GREATER_THAN_ZERO = 3;
- INVALID_CURRENCY = 4;
- }
- 
- 
-message BaseResponse{
- StatusCode statusCode= 1;
- StatusMessage statusMessage = 2;
-}
-
 service WalletService {
-  rpc deposit(DepositRequest) returns (DepositResponse) {}
-  rpc withdraw(WithdrawRequest) returns (WithdrawResponse) {}
-  rpc balance(BalanceRequest) returns (BalanceResponse) {}
+  rpc deposit(BaseRequest) returns (BaseResponse) {}
+  rpc withdraw(BaseRequest) returns (BaseResponse) {}
+  rpc balance(BaseRequest) returns (BaseResponse) {}
 }
 
-message DepositRequest {
-  int32 userID = 1;
-  float amount = 2;
+enum STATUS {
+TRANSACTION_SUCCESS = 0;
+TRANSACTION_FAILED =1;
+}
+ 
+enum OPERATION{
+ DEPOSIT = 0;
+ WITHDRAW = 1;
+ BALANCE = 2;
+} 
+message BaseResponse{
+STATUS status = 1;
+string statusMessage = 2;
+OPERATION operation = 3;
+}
+
+message BaseRequest {
+  int64 userID = 1;
+  string amount = 2;
   CURRENCY currency = 3;	
-}
-
-message DepositResponse{
-  int32 userID = 1;
-  float amount = 2;
-  CURRENCY currency = 3;	
-}
-
-
-message WithdrawRequest  {
-  int32 userID = 1;
-  float amount = 2;
-  CURRENCY currency = 3;	
-}
-
-
-
-message WithdrawResponse {
-  float amountToWithDraw = 1;
-  float balance = 2;
-  CURRENCY currency = 3;	
-}
-
-message BalanceRequest  {
-  int32 userID = 1;
-}
-
-
-message BalanceResponse {
- repeated Balance balance = 1;
-}
-
-message Balance {
-  float amount = 1;
-  CURRENCY currency = 2;	
 }
 
 
@@ -80,9 +38,12 @@ enum CURRENCY {
 USD = 0;
 EUR =1;
 GBP = 2;
-
 }
 
-message Empty {
-
-}
+enum StatusMessage{
+ USER_DOES_NOT_EXIST = 0;
+ INVALID_ARGUMENTS = 1;
+ INSUFFICIENT_BALANCE = 2;
+ AMOUNT_SHOULD_BE_GREATER_THAN_ZERO = 3;
+ INVALID_CURRENCY = 4;
+ }
