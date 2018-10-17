@@ -1,4 +1,6 @@
-# bp-wallet-grpc-spring
+ 
+
+# bp-wallet-grpc-spring https://akash-mittal.github.io/bp-wallet-grpc-spring/
 
 Based on Google RPC and Protocol Buffer - a multi threaded Asynchronous Application that Allows Deposit, Withdrawal and Get Balance for the users.Project consists of a Wallet server and Wallet client.The wallet server will keep track of a users monetary balance in the system. The client will emulate users depositing and withdrawing funds.
 
@@ -112,6 +114,7 @@ Function        | Input           | Output  | Error |
 * The actual applicable schema is included in `Future Aspiration Section` with SQL and Schema Diagram.
 * The Service Response/Request has been kept same for `RAPID (Rapid Application Development in Pro-typing)` Otherwise it should be different for each transaction type example /docs/wallet.proto.
 * Implements limited caching  `spring-caching` although not bench-marked, it will play a crucial role with expanding user base.
+* `bp` is an `application prefix`.
 
 ---
 
