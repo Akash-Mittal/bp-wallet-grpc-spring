@@ -160,11 +160,11 @@ Script: `start-bp-wallet-docker.bat`
 
 ###### LOCAL 
 
-http://localhost:8080/swagger-ui.html#/
+http://localhost:8080/swagger-ui.html#/wallet-client-controller/executeUsingPOST
 
 ##### Docker
 
-http://<dockermachine -ip>:8080/swagger-ui.html#/
+http://<dockermachine -ip>:8080/swagger-ui.html#//wallet-client-controller/executeUsingPOST
 	
 ### Request
 
@@ -178,12 +178,29 @@ http://<dockermachine -ip>:8080/swagger-ui.html#/
 
 	{
 	  "transactions": {
-	    "TRANSACTION_SUCCESS": 700,
-	    "TRANSACTION_FAILED": 0
+	    "DEPOSIT": {
+	      "TRANSACTION_SUCCESS": 146,
+	      "TRANSACTION_FAILED": 0,
+	      "UNRECOGNIZED": 0
+	    },
+	    "WITHDRAW": {
+	      "TRANSACTION_SUCCESS": 17,
+	      "TRANSACTION_FAILED": 0,
+	      "UNRECOGNIZED": 0
+	    },
+	    "BALANCE": {
+	      "TRANSACTION_SUCCESS": 174,
+	      "TRANSACTION_FAILED": 0,
+	      "UNRECOGNIZED": 0
+	    },
+	    "UNRECOGNIZED": {
+	      "TRANSACTION_SUCCESS": 0,
+	      "TRANSACTION_FAILED": 395,
+	      "UNRECOGNIZED": 0
+	    }
 	  },
-	  "timeTaken": 2
+	  "timeTaken": 10
 	}
-
 
 `timeTaken in Seconds.`
 
