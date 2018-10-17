@@ -147,7 +147,7 @@ public class WalletServerService extends WalletServiceGrpc.WalletServiceImplBase
 
 	private void updateWallet(final BigDecimal newBalance, final Optional<Wallet> wallet) {
 		wallet.get().setBalance(newBalance);
-		walletRepository.save(wallet.get());
+		walletRepository.saveAndFlush(wallet.get());
 	}
 
 	private void validateWithDrawRequest(final BigDecimal balanceToWithdraw, Optional<Wallet> wallet) {
