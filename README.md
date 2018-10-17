@@ -112,6 +112,7 @@ Function        | Input           | Output  | Error |
 * The actual applicable schema is included in `Future Aspiration Section` with SQL and Schema Diagram.
 * The Service Response/Request has been kept same for `RAPID (Rapid Application Development in Pro-typing)` Otherwise it should be different for each transaction type example /docs/wallet.proto.
 * Implements limited caching  `spring-caching` although not bench-marked, it will play a crucial role with expanding user base.
+* `bp` is an `application prefix`.
 
 ---
 
