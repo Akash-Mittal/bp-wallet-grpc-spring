@@ -2,7 +2,6 @@
 
 # bp-wallet-grpc-spring 
 
-https://akash-mittal.github.io/bp-wallet-grpc-spring/
 
 [![Build Status](https://travis-ci.org/Akash-Mittal/bp-wallet-grpc-spring.svg?branch=master)](https://travis-ci.org/Akash-Mittal/bp-wallet-grpc-spring)
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=Akash-Mittal_bp-wallet-grpc-spring&metric=alert_status)](https://sonarcloud.io/dashboard?id=Akash-Mittal_bp-wallet-grpc-spring)
