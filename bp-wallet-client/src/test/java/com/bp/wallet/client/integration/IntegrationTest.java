@@ -73,7 +73,7 @@ public class IntegrationTest {
         BaseResponse response = null;
         futureResponse = TRANSACTION.WITHDRAW.doTransact(
                 futureStub, BaseRequest.newBuilder().setUserID(userID)
-                        .setAmount(AMOUNT.TWOHUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                        .setAmount(AMOUNT.TWOHUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                 taskExecuter);
         try {
             response = futureResponse.get();
@@ -87,7 +87,7 @@ public class IntegrationTest {
         BaseResponse response;
         futureResponse = TRANSACTION.DEPOSIT.doTransact(
                 futureStub, BaseRequest.newBuilder().setUserID(userID)
-                        .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                        .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                 taskExecuter);
         response = futureResponse.get();
         assertThat(response.getStatus().name()).contains(STATUS.TRANSACTION_SUCCESS.name());
@@ -97,7 +97,7 @@ public class IntegrationTest {
         BaseResponse response = getBalanceForTestUser();
         BalanceResponseDTO dto = new Gson().fromJson(response.getStatusMessage(), BalanceResponseDTO.class);
 
-        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.USD)).compareTo(AMOUNT.HUNDERED.getAmount()) == 0)
+        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.USD)).compareTo(AMOUNT.HUNDRED.getAmount()) == 0)
                 .isTrue();
 
     }
@@ -107,7 +107,7 @@ public class IntegrationTest {
         BaseResponse response;
         futureResponse = TRANSACTION.WITHDRAW.doTransact(
                 futureStub, BaseRequest.newBuilder().setUserID(userID)
-                        .setAmount(AMOUNT.TWOHUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                        .setAmount(AMOUNT.TWOHUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                 taskExecuter);
         try {
             response = futureResponse.get();
@@ -121,7 +121,7 @@ public class IntegrationTest {
         BaseResponse response;
         futureResponse = TRANSACTION.DEPOSIT.doTransact(
                 futureStub, BaseRequest.newBuilder().setUserID(userID)
-                        .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.EUR).build(),
+                        .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.EUR).build(),
                 taskExecuter);
         response = futureResponse.get();
         assertThat(response.getStatus().name()).contains(STATUS.TRANSACTION_SUCCESS.name());
@@ -132,9 +132,9 @@ public class IntegrationTest {
 
         BalanceResponseDTO dto = new Gson().fromJson(response.getStatusMessage(), BalanceResponseDTO.class);
 
-        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.USD)).compareTo(AMOUNT.HUNDERED.getAmount()) == 0)
+        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.USD)).compareTo(AMOUNT.HUNDRED.getAmount()) == 0)
                 .isTrue();
-        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.EUR)).compareTo(AMOUNT.HUNDERED.getAmount()) == 0)
+        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.EUR)).compareTo(AMOUNT.HUNDRED.getAmount()) == 0)
                 .isTrue();
 
     }
@@ -144,7 +144,7 @@ public class IntegrationTest {
         BaseResponse response;
         futureResponse = TRANSACTION.WITHDRAW.doTransact(
                 futureStub, BaseRequest.newBuilder().setUserID(userID)
-                        .setAmount(AMOUNT.TWOHUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                        .setAmount(AMOUNT.TWOHUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                 taskExecuter);
         try {
             response = futureResponse.get();
@@ -158,7 +158,7 @@ public class IntegrationTest {
         BaseResponse response;
         futureResponse = TRANSACTION.DEPOSIT.doTransact(
                 futureStub, BaseRequest.newBuilder().setUserID(userID)
-                        .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                        .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                 taskExecuter);
         response = futureResponse.get();
         assertThat(response.getStatus().name()).contains(STATUS.TRANSACTION_SUCCESS.name());
@@ -174,9 +174,9 @@ public class IntegrationTest {
         BaseResponse response = getBalanceForTestUser();
         BalanceResponseDTO dto = new Gson().fromJson(response.getStatusMessage(), BalanceResponseDTO.class);
 
-        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.USD)).compareTo(AMOUNT.TWOHUNDERED.getAmount()) == 0)
+        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.USD)).compareTo(AMOUNT.TWOHUNDRED.getAmount()) == 0)
                 .isTrue();
-        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.EUR)).compareTo(AMOUNT.HUNDERED.getAmount()) == 0)
+        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.EUR)).compareTo(AMOUNT.HUNDRED.getAmount()) == 0)
                 .isTrue();
 
     }
@@ -186,7 +186,7 @@ public class IntegrationTest {
         BaseResponse response;
         futureResponse = TRANSACTION.WITHDRAW.doTransact(
                 futureStub, BaseRequest.newBuilder().setUserID(userID)
-                        .setAmount(AMOUNT.TWOHUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                        .setAmount(AMOUNT.TWOHUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                 taskExecuter);
         response = futureResponse.get();
         assertThat(response.getStatus().name()).contains(STATUS.TRANSACTION_SUCCESS.name());
@@ -198,7 +198,7 @@ public class IntegrationTest {
         BalanceResponseDTO dto = new Gson().fromJson(response.getStatusMessage(), BalanceResponseDTO.class);
 
         assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.USD)).compareTo(AMOUNT.ZERO.getAmount()) == 0).isTrue();
-        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.EUR)).compareTo(AMOUNT.HUNDERED.getAmount()) == 0)
+        assertThat(new BigDecimal(dto.getBalance().get(CURRENCY.EUR)).compareTo(AMOUNT.HUNDRED.getAmount()) == 0)
                 .isTrue();
 
     }
@@ -208,7 +208,7 @@ public class IntegrationTest {
         BaseResponse response;
         futureResponse = TRANSACTION.WITHDRAW.doTransact(
                 futureStub, BaseRequest.newBuilder().setUserID(userID)
-                        .setAmount(AMOUNT.TWOHUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                        .setAmount(AMOUNT.TWOHUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                 taskExecuter);
         try {
             response = futureResponse.get();

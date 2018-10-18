@@ -20,15 +20,15 @@ public enum ROUND {
             List<ListenableFuture<BaseResponse>> list = new ArrayList<>();
             list.add(TRANSACTION.DEPOSIT.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                     taskExecuter));
             list.add(TRANSACTION.WITHDRAW.doTransact(futureStub, BaseRequest.newBuilder().setUserID(userID)
-                    .setAmount(AMOUNT.TWOHUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                    .setAmount(AMOUNT.TWOHUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.DEPOSIT.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.EUR).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.EUR).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.BALANCE.doTransact(futureStub, BaseRequest.newBuilder().setUserID(userID).build(),
@@ -36,13 +36,13 @@ public enum ROUND {
 
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                     taskExecuter));
             list.add(TRANSACTION.BALANCE.doTransact(futureStub, BaseRequest.newBuilder().setUserID(userID).build(),
                     taskExecuter));
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                     taskExecuter));
 
             return list;
@@ -58,38 +58,38 @@ public enum ROUND {
 
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.DEPOSIT.doTransact(futureStub,
                     BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.THREEHUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP)
+                            .setAmount(AMOUNT.THREEHUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP)
                             .build(),
                     taskExecuter));
 
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.GBP).build(),
                     taskExecuter));
 
             return list;
@@ -108,22 +108,22 @@ public enum ROUND {
 
             list.add(TRANSACTION.DEPOSIT.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.DEPOSIT.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.DEPOSIT.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.BALANCE.doTransact(futureStub, BaseRequest.newBuilder().setUserID(userID).build(),
@@ -131,7 +131,7 @@ public enum ROUND {
 
             list.add(TRANSACTION.WITHDRAW.doTransact(
                     futureStub, BaseRequest.newBuilder().setUserID(userID)
-                            .setAmount(AMOUNT.HUNDERED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
+                            .setAmount(AMOUNT.HUNDRED.getAmount().toPlainString()).setCurrency(CURRENCY.USD).build(),
                     taskExecuter));
 
             list.add(TRANSACTION.BALANCE.doTransact(futureStub, BaseRequest.newBuilder().setUserID(userID).build(),
