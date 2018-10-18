@@ -1,6 +1,17 @@
  
 
-# bp-wallet-grpc-spring https://akash-mittal.github.io/bp-wallet-grpc-spring/
+# bp-wallet-grpc-spring 
+
+https://akash-mittal.github.io/bp-wallet-grpc-spring/
+
+[![Build Status](https://travis-ci.org/Akash-Mittal/bp-wallet-grpc-spring.svg?branch=master)](https://travis-ci.org/Akash-Mittal/bp-wallet-grpc-spring)
+[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=Akash-Mittal_bp-wallet-grpc-spring&metric=alert_status)](https://sonarcloud.io/dashboard?id=Akash-Mittal_bp-wallet-grpc-spring)
+[![GitHub issues](https://img.shields.io/github/issues/Akash-Mittal/bp-wallet-grpc-spring.svg)](https://github.com/Akash-Mittal/bp-wallet-grpc-spring/issues)
+[![GitHub forks](https://img.shields.io/github/forks/Akash-Mittal/bp-wallet-grpc-spring.svg)](https://github.com/Akash-Mittal/bp-wallet-grpc-spring/network)
+[![GitHub stars](https://img.shields.io/github/stars/Akash-Mittal/bp-wallet-grpc-spring.svg)](https://github.com/Akash-Mittal/bp-wallet-grpc-spring/stargazers)
+[![GitHub license](https://img.shields.io/github/license/Akash-Mittal/bp-wallet-grpc-spring.svg)](https://github.com/Akash-Mittal/bp-wallet-grpc-spring/blob/master/LICENSE)
+
+
 
 Based on Google RPC and Protocol Buffer - a multi threaded Asynchronous Application that Allows Deposit, Withdrawal and Get Balance for the users.Project consists of a Wallet server and Wallet client.The wallet server will keep track of a users monetary balance in the system. The client will emulate users depositing and withdrawing funds.
 
