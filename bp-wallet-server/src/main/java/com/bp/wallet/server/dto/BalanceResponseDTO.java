@@ -22,9 +22,8 @@ public class BalanceResponseDTO {
 	public Map<CURRENCY, String> getBalance() {
 		if (balance == null) {
 			balance = new EnumMap<>(CURRENCY.class);
-			Arrays.stream(CURRENCY.values()).filter(checkInvalidCurrency()).forEach(currency -> {
-				balance.put(currency, "0");
-			});
+			Arrays.stream(CURRENCY.values()).filter(checkInvalidCurrency())
+					.forEach(currency -> balance.put(currency, "0"));
 		}
 		return balance;
 	}
@@ -34,9 +33,9 @@ public class BalanceResponseDTO {
 	}
 
 	public String getBalanceAsString(final Optional<List<Wallet>> userWallets) {
-		userWallets.get().stream().filter(checkInvalidCurrencyFromWallet()).forEach(wallet -> {
-			this.getBalance().put(wallet.getWalletPK().getCurrency(), wallet.getBalance().toPlainString());
-		});
+		userWallets
+				.ifPresent(wallets -> wallets.stream().filter(checkInvalidCurrencyFromWallet()).forEach(wallet -> this
+						.getBalance().put(wallet.getWalletPK().getCurrency(), wallet.getBalance().toPlainString())));
 
 		return new Gson().toJson(this);
 	}
