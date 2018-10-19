@@ -9,7 +9,8 @@
 [![GitHub forks](https://img.shields.io/github/forks/Akash-Mittal/bp-wallet-grpc-spring.svg)](https://github.com/Akash-Mittal/bp-wallet-grpc-spring/network)
 [![GitHub stars](https://img.shields.io/github/stars/Akash-Mittal/bp-wallet-grpc-spring.svg)](https://github.com/Akash-Mittal/bp-wallet-grpc-spring/stargazers)
 [![GitHub license](https://img.shields.io/github/license/Akash-Mittal/bp-wallet-grpc-spring.svg)](https://github.com/Akash-Mittal/bp-wallet-grpc-spring/blob/master/LICENSE)
-
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/Akash-Mittal/bp-wallet-grpc-spring.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Akash-Mittal/bp-wallet-grpc-spring/alerts/)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/Akash-Mittal/bp-wallet-grpc-spring.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Akash-Mittal/bp-wallet-grpc-spring/context:java)
 
 
 Based on Google RPC and Protocol Buffer - a multi threaded Asynchronous Application that Allows Deposit, Withdrawal and Get Balance for the users.Project consists of a Wallet server and Wallet client.The wallet server will keep track of a users monetary balance in the system. The client will emulate users depositing and withdrawing funds.
